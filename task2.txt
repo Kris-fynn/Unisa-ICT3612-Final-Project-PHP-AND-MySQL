@@ -1,0 +1,49 @@
+!DOCTYPE html>
+<head>
+    <title>Assignment3</title>
+</head>
+<body>
+    <?php include 'menu.inc'; 
+    
+    ///////////////////////////////////////////////A////////////////////////////////////////////////////////////
+   
+    class Square
+    {
+        private $name;
+        private $length;
+
+        function __construct($length){
+            $this->length =$length;
+            $this->name = "Square";
+        }
+
+        function getName(){
+            return $this->name;
+        }
+
+        function getLength(){
+            return $this->length;
+        }
+
+        function setLength($len){
+            $this->length=$len;
+        }
+
+        function getArea(){
+            return $this->length*$this->length;
+        }
+
+        function getPerimeter(){
+            return $this->length*4;
+        }
+    }
+
+    $shape = new Square(4);
+
+    echo "The name of the shape is: ".$shape->getName()."</br>";
+    echo "The length of one side of shape is: ".$shape->getLength()."</br>";
+    echo "The perimeter for the shape is: ".$shape->getPerimeter()."</br>";
+    echo "The Area for the shape is: ".$shape->getArea()."</br>";
+    
+    
+    ?>
