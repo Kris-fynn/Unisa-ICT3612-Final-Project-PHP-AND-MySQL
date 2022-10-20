@@ -1,61 +1,61 @@
 <!DOCTYPE html>
-<head>
-    <title>Assignment3</title>
-</head>
+<html>
+
 <body>
-    <?php include 'menu.inc'; 
+<h1>Task 3</h1>
+    <?php 
+                
+        class AssignmentRecord{
 
-    class AssignmentRecord{
-        protected $studentNum;
-        protected $assignment1;
-        protected $assignment2;
-        protected $assignment3;
+            private $studentNumber;
+            private $assignment1;
+            private $assignment2;
+            private $assignment3;
 
-        const ass1Weight = .1;
-        const ass2Weight = .1;
-        const ass3Weight = .8;
+            const ASS_ONE_WEIGHT = 0.1;
+            const ASS_TWO_WEIGHT = 0.1;
+            const ASS_THREE_WEIGHT = 0.8;
 
-        function __construct($studNum,$ass1,$ass2,$ass3){
-            $this->studentNum = $studNum;
-            $this->assignment1 = $ass1;
-            $this->assignment2 = $ass2;
-            $this->assignment3 = $ass3;
+            public function __construct($studentNumber, $assignment1, $assignment2, $assignment3){
+                $this->studentNumber = $studentNumber;
+                $this->assignment1 = $assignment1;
+                $this->assignment2 = $assignment2;
+                $this->assignment3 = $assignment3;
+            }
+
+            public function calcYearMark(){
+                $yearMark = ($this->assignment1 * AssignmentRecord::ASS_ONE_WEIGHT) + ($this->assignment2 * AssignmentRecord::ASS_TWO_WEIGHT) + ($this->assignment3 * AssignmentRecord::ASS_THREE_WEIGHT);
+                return $yearMark;
+            }
+
+            public function __toString(){
+                return "$this->studentNumber, $this->assignment1, $this->assignment2, $this->assignment3";
+            }
         }
 
-        function yearMark(){
-            return $this->assignment1*ass1Weight+$this->assignment2*ass2Weight+$this->assignment3*ass3Weight;
-        }
-        function __toString(){
-            return $this->studentNum.",".$this->assignment1.",".$this->assignment2.",".$this->assignment3;
-        }
-    }
+        class FullRecord extends AssignmentRecord{
+            private $examMark;
 
-    class FullRecord extends AssignmentRecord{
+            public function __construct($studentNumber, $assignment1, $assignment2, $assignment3, $examMark){
+                $this->examMark = $examMark;
+                parent::__construct($studentNumber, $assignment1, $assignment2, $assignment3);
+            }
 
-        private $examMark;
-
-        function __construct($studNum,$ass1,$ass2,$ass3,$examMark){
-            $this->examMark =$examMark;
-            $this->studentNum = $studNum;
-            $this->assignment1 = $ass1;
-            $this->assignment2 = $ass2;
-            $this->assignment3 = $ass3;
+            public function __toString(){
+                $assRec = parent::__toString();
+                return $assRec.", $this->examMark";
+            }
         }
 
-        function __toString(){
-           return  AssignmentRecord::__toString().",".$this->examMark;
-        }
-    }
+        $fullRecord = new FullRecord(123456, 70, 80, 50, 55);
+        $yearMark = $fullRecord->calcYearMark();
+        
+        echo "Year mark is $yearMark<br><br>";
 
-    $fullRecord = new FullRecord(123456,70,80,50,55);
-
-   echo $fullRecord->__toString();
-
-   
-    
+        $rec = $fullRecord->__toString();
+        echo "Full student record: $rec";
     ?>
     
-    <iframe src="task3.txt" height="400" width="1200">
-Your browser does not support iframes. </iframe>
-</body>
+    <br><br>
+    </body>
 </html>

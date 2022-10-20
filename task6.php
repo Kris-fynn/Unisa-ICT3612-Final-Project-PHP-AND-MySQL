@@ -1,198 +1,238 @@
 <!DOCTYPE html>
-<head>
-    <title>Assignment3</title>
-</head>
-<body>
-    <?php include 'menu.inc';
+<html>
+<body>    
+<main>
+<h1>Task 6</h1>
+<?php
 
-$servername = "localhost";
-$username = "root";
-$password = "";
+//Setup DB Connection
+$dsn = '';
+$username = '';
+$password = '';
 
-$conn = new PDO("mysql:host=$servername;dbname=films", $username, $password);
-$results = $conn->query('Select * from actors');
-if(!$results){
-    print "<p>Could not retrieve Actors list: " . $conn->errorMsg(). "</p>";
-}
-echo "<br/><b>Actor's table</b>:";
-echo "<table style='width:100%'><tr><th>Actor id</th><th>Name</th><th>Notes</th></tr>";
-while ($row = $results->fetch()) {
-    
-    echo "<tr>";
-    echo "<td>".$row['ActorID']."</td>";
-    echo "<td>".$row['ActorFullName']."</td>";
-    echo "<td>".$row['ActorNotes']."</td>";
-    echo "</tr>";
-    echo "<br/>";
+try{
+    $db = new PDO($dsn, $username, $password);
+} catch (PDOException $e) {
+    $error_message = $e->getMessage();
+    echo "<p>An error occured while connecting to the database: $error_message </p>";
 }
 
-echo "</table>";
-$conn = new PDO("mysql:host=$servername;dbname=films", $username, $password);
-$results = $conn->query('Select * from roletypes');
-echo "<br/><b>Roles table</b>:";
-echo "<table style='width:100%'><tr><th>Type id</th><th>Type</th></tr>";
-while ($row = $results->fetch()) {
-    
-    echo "<tr>";
-    echo "<td>".$row['RoleTypeID']."</td>";
-    echo "<td>".$row['RoleType']."</td>";
-    echo "</tr>";
-    echo "<br/>";
-}
+//Get all actors from database
+$query = 'SELECT * FROM actors';
+$statement = $db->prepare($query);
+$statement->execute();
+$actors = $statement->fetchAll();
+$statement->closeCursor();
 
-echo "</table>";
+//Get all films from database
+$query = 'SELECT * FROM film_titles';
+$statement = $db->prepare($query);
+$statement->execute();
+$films = $statement->fetchAll();
+$statement->closeCursor();
 
-$conn = new PDO("mysql:host=$servername;dbname=films", $username, $password);
-$results = $conn->query('Select * from FilmActorRoles');
-echo "<br/><b>Film-Actor-Roles table</b>:";
-echo "<table style='width:100%'><tr><th>Film Title id</th><th>Actor id</th><th>Role Type id</th><th>Charecter Name</th><th>Charecter Description</th></tr>";
-while ($row = $results->fetch()) {
-    
-    echo "<tr>";
-    echo "<td>".$row['FilmTitleID']."</td>";
-    echo "<td>".$row['ActorID']."</td>";
-    echo "<td>".$row['RoleTypeID']."</td>";
-    echo "<td>".$row['CharecterName']."</td>";
-    echo "<td>".$row['CharecterDescription']."</td>";
-    echo "</tr>";
-    echo "<br/>";
-}
+//Get all role types from database
+$query = 'SELECT * FROM role_types';
+$statement = $db->prepare($query);
+$statement->execute();
+$roles = $statement->fetchAll();
+$statement->closeCursor();
 
-echo "</table>";
+//Get all film actor roles from database
+$query = 'SELECT * FROM film_actor_roles';
+$statement = $db->prepare($query);
+$statement->execute();
+$film_actor_roles = $statement->fetchAll();
+$statement->closeCursor();
 
-$conn = new PDO("mysql:host=$servername;dbname=films", $username, $password);
-$results = $conn->query('Select * from FilmTitles');
-echo "<br/><b>Film Titles Table</b>:";
-echo "<table style='width:100%'><tr><th>Film Title ID</th><th>Film Title</th><th>Film Duration</th><th>Film Story</th></tr>";
-while ($row = $results->fetch()) {
-    
-    echo "<tr>";
-    echo "<td>".$row['FilmTitleID']."</td>";
-    echo "<td>".$row['FilmTitle']."</td>";
-    echo "<td>".$row['FilmDuration']."</td>";
-    echo "<td>".$row['FilmStory']."</td>";
-    echo "</tr>";
-    echo "<br/>";
-}
+?>
 
-echo "</table>";
 
-echo '<br/><form action="task6.php" method="POST">
-<b>Choose Query clause:</b><br/>
-        <p><input type="radio" name="query"
-        value="order">Order By</p>
-        <p><input type="radio" name="query"
-        value="like">Like Operator</>
-        <p><input type="radio" name="query"
-        value="inner">Inner Join</p>
-        <p><input type="radio" name="query"
-        value="where">WHERE clause and AND operator</p>
-        <p><input type="radio" name="query"
-        value="avg">AVG function</p>
-        
-        <input type="submit" name="submit">
-        </form>';
-        
-        if(isset($_POST['submit'])){
-            if (isset($_POST['query'])) {
-                $queryType = $_POST['query'];
-                switch ($queryType) {
-                    case 'order':
-                        $results = $conn->query('Select * from Actors order by ActorFullName');
-                        
-                        echo "<br/><b>Actor's table</b>:";
-                        echo "<table><tr><th>Actor id</th><th>Name</th><th>Notes</th></tr>";
-                        while ($row = $results->fetch()) {
-                            
-                            echo "<tr>";
-                            echo "<td>".$row['ActorID']."</td>";
-                            echo "<td>".$row['ActorFullName']."</td>";
-                            echo "<td>".$row['ActorNotes']."</td>";
-                            echo "</tr>";
-                            echo "<br/>";
-                        }
-                        
-                        echo "</table>";
-                        
-                        break;
-                        case 'like':
-                            $results = $conn->query('Select * from Actors WHERE ActorFullName Like "%n"');
-                            echo "<br/><b>Actors whose names end with an 'n'</b>:";
-                            echo "<table><tr><th>Actor id</th><th>Name</th><th>Notes</th></tr>";
-                            while ($row = $results->fetch()) {
-                                
-                                echo "<tr>";
-                                echo "<td>".$row['ActorID']."</td>";
-                                echo "<td>".$row['ActorFullName']."</td>";
-                                echo "<td>".$row['ActorNotes']."</td>";
-                                echo "</tr>";
-                                echo "<br/>";
-                            }
-                            
-                            echo "</table>";
-                            
-                            break;
-                            case 'inner':
-                                $results = $conn->query('SELECT a.ActorFullName,fa.CharecterName,ft.filmtitle
-                                FROM actors a, filmactorroles fa, filmtitles ft
-                                WHERE a.ActorID=fa.ActorID
-                                AND fa.FilmTitleID=ft.FilmTitleID');
-                                echo "<br/><b>Actors, their charecter and films</b>:";
-                                echo "<table><tr><th>Actor Name</th><th>Charecter Name</th><th>Film name</th></tr>";
-                                while ($row = $results->fetch()) {
-                                    
-                                    echo "<tr>";
-                                    echo "<td>".$row['ActorFullName']."</td>";
-                                    echo "<td>".$row['CharecterName']."</td>";
-                                    echo "<td>".$row['filmtitle']."</td>";
-                                    echo "</tr>";
-                                    echo "<br/>";
-                                }
-                                
-                                echo "</table>";
-                                
-                                break;
-                                
-                                case 'where':
-                                $results = $conn->query('SELECT * FROM `actors` WHERE ActorFullName="Jonathan Davis"');
-                                echo "<br/><b>Actor with the name 'Jonathan Davis'</b>:";
-                                echo "<table><tr><th>Actor ID</th><th>Full name</th><th>Notes</th></tr>";
-                                while ($row = $results->fetch()) {
-                                    
-                                    echo "<tr>";
-                                    echo "<td>".$row['ActorID']."</td>";
-                                    echo "<td>".$row['ActorFullName']."</td>";
-                                    echo "<td>".$row['ActorNotes']."</td>";
-                                    echo "</tr>";
-                                    echo "<br/>";
-                                }
-                                
-                                echo "</table>";
-                                
-                                default:
-                                # code...
-                                $results = $conn->query('SELECT SEC_TO_TIME(AVG(TIME_TO_SEC("FilmDuration"))) AS Average FROM filmtitles');
-                                echo "<br/><b>Average seconds'</b>:";
-                                echo "<table><tr><th>Average</th></tr>";
-                                while ($row = $results->fetch()) {
-                                    
-                                    echo "<tr>";
-                                    echo "<td>".$row['Average']."</td>";
-                                    echo "</tr>";
-                                    echo "<br/>";
-                                }
-                                
-                                echo "</table>";
-                            break;
-                    }
-                }else {
-                    echo 'Select the type of query!!';
-                }
+
+<!--display actors in HTML table-->
+<h3>Actors:</h3>
+<table style="border: 1px solid black;">
+<tr>
+    <th>ActorID</th>
+    <th>ActorFullName</th>
+    <th>ActorNotes</th>
+</tr>
+
+<?php foreach ($actors as $actor) : ?>
+<tr>
+    <td><?php echo $actor['ActorID']; ?> </td>
+    <td><?php echo $actor['ActorFullName']; ?> </td>
+    <td><?php echo $actor['ActorNotes']; ?> </td>
+</tr>
+<?php endforeach; ?>
+</table>
+
+<br>
+<hr>
+
+<!--display films in HTML table-->
+<h3>Films:</h3>
+<table style="border: 1px solid black;">
+<tr>
+    <th>FilmTitleID</th>
+    <th>FilmTitle</th>
+    <th>FilmDuration</th>
+    <th>FilmStory</th>
+</tr>
+
+<?php foreach ($films as $film) : ?>
+<tr>
+    <td><?php echo $film['FilmTitleID']; ?> </td>
+    <td><?php echo $film['FilmTitle']; ?> </td>
+    <td><?php echo $film['FilmDuration']; ?> </td>
+    <td><?php echo $film['FilmStory']; ?> </td>
+</tr>
+<?php endforeach; ?>
+</table>
+
+<br>
+<hr>
+
+<!--display roles in HTML table-->
+<h3>Roles:</h3>
+<table style="border: 1px solid black;">
+<tr>
+    <th>RoleTypeID</th>
+    <th>RoleType</th>
+</tr>
+
+<?php foreach ($roles as $role) : ?>
+<tr>
+    <td><?php echo $role['RoleTypeID']; ?> </td>
+    <td><?php echo $role['RoleType']; ?> </td>
+</tr>
+<?php endforeach; ?>
+</table>
+
+<br>
+<hr>
+
+<!--display film actor roles in HTML table-->
+<h3>Film Actor Roles:</h3>
+<table style="border: 1px solid black;">
+<tr>
+    <th>FilmTitleID</th>
+    <th>ActorID</th>
+    <th>RoleTypeID</th>
+    <th>CharacterName</th>
+    <th>CharacterDescription</th>
+</tr>
+
+<?php foreach ($film_actor_roles as $film_actor_role) : ?>
+<tr>
+    <td><?php echo $film_actor_role['FilmTitleID']; ?> </td>
+    <td><?php echo $film_actor_role['ActorID']; ?> </td>
+    <td><?php echo $film_actor_role['RoleTypeID']; ?> </td>
+    <td><?php echo $film_actor_role['CharacterName']; ?> </td>
+    <td><?php echo $film_actor_role['CharacterDescription']; ?> </td>
+</tr>
+<?php endforeach; ?>
+</table>
+
+<br>
+<hr>
+
+<form action="" method="post">
+    <input type="radio" name="query" value="orderBy">Select ActorFullName (Order by ActorFullName asc)<br>
+    <input type="radio" name="query" value="like">Select CharacterName (CharacterName like 'Harry')<br>
+    <input type="radio" name="query" value="innerJoin">Select CharacterName and Film Title (Inner Join film_titles on film_actor_roles)<br>
+    <input type="radio" name="query" value="where">Select CharacterName (WHERE ActorID=5 OR RoleTypeID=5)<br>
+    <input type="radio" name="query" value="max">Select MAX(FilmDuration) as MAX_Duration<br><br>
+    <button type="submit">Show Query Results</button>
+</form>
+
+<br>
+<hr>
+
+<!-- first SQL query-->
+<?php
+    $SQL_query = filter_input(INPUT_POST, 'query');
+
+    switch($SQL_query) {
+        case 'orderBy' :
+            $query = 'SELECT ActorFullName FROM actors ORDER BY ActorFullName asc';
+            $statement = $db->prepare($query);
+            $statement->execute();
+            $actors = $statement->fetchAll();
+            $statement->closeCursor(); 
+
+            foreach ($actors as $actor) {
+            echo
+            "<tr>" .
+                "<td>" . $actor['ActorFullName'] . "</td>" . "<br>" .
+            "</tr>";
             }
-    ?>
+        break;
 
+        case 'like' : 
+            $query = "SELECT CharacterName FROM film_actor_roles WHERE CharacterName like '%Harry%' ";
+            $statement = $db->prepare($query);
+            $statement->execute();
+            $characters = $statement->fetchAll();
+            $statement->closeCursor(); 
 
-    <iframe src="task6.txt" height="400" width="1200">
-Your browser does not support iframes. </iframe>
+            foreach ($characters as $character) {
+            echo
+            "<tr>" .
+                "<td>" . $character['CharacterName'] . "</td>" . "<br>" .
+            "</tr>";
+            }
+        break;
+
+        case 'innerJoin' : 
+            $query = "SELECT film_actor_roles.CharacterName, film_titles.FilmTitle FROM film_actor_roles 
+            INNER JOIN film_titles on film_titles.FilmTitleID = film_actor_roles.FilmTitleID";
+            $statement = $db->prepare($query);
+            $statement->execute();
+            $filmCharacters = $statement->fetchAll();
+            $statement->closeCursor(); 
+
+            foreach ($filmCharacters as $filmCharacter) {
+            echo
+            "<tr>" .
+                "<td>" . $filmCharacter['FilmTitle'] . "</td>" . "-" .
+                "<td>" . $filmCharacter['CharacterName'] . "</td>" . "<br>" .
+            "</tr>";
+            }
+        break;
+
+        case 'where' : 
+            $query = "SELECT CharacterName FROM film_actor_roles WHERE ActorID='5' OR RoleTypeID='5' ";
+            $statement = $db->prepare($query);
+            $statement->execute();
+            $characters = $statement->fetchAll();
+            $statement->closeCursor(); 
+
+            foreach ($characters as $character) {
+            echo
+            "<tr>" .
+                "<td>" . $character['CharacterName'] . "</td>" . "<br>" .
+            "</tr>";
+            }
+        break;
+
+        case 'max' : 
+            $query = "SELECT max(FilmDuration) as MaxDuration FROM film_titles";
+            $statement = $db->prepare($query);
+            $statement->execute();
+            $maxDuration = $statement->fetch();
+            $statement->closeCursor(); 
+
+            echo "Maximum movie duration: " . $maxDuration['MaxDuration'] . " minutes";
+            break;
+}
+
+?>
+
+</main>
 </body>
 </html>
+
+
+
+

@@ -1,54 +1,56 @@
 <!DOCTYPE html>
-<head>
-    <title>Assignment3</title>
-</head>
+<html>
+
 <body>
-    <?php include 'menu.inc'; 
-    
-    ///////////////////////////////////////////////A////////////////////////////////////////////////////////////
-   
-    class Square
-    {
-        private $name;
-        private $length;
+<h1>Task 2</h1>
+    <?php 
+                
+        class Square{
+            private $shapeName;
+            private $shapeLength;
 
-        function __construct($length){
-            $this->length =$length;
-            $this->name = "Square";
+            public function __construct($shapeLength){
+                $this->shapeName = "Square";
+                $this->shapeLength = $shapeLength;
+            }
+
+            public function setShapeLength($shapeLength){
+                $this->shapeLength = $shapeLength;
+            }
+
+            public function getShapeName(){
+                return $this->shapeName;
+            }
+
+            public function getShapeLength(){
+                return $this->shapeLength;
+            }
+
+            public function getArea(){
+                return $this->shapeLength * $this->shapeLength;
+            }
+
+            public function getPerimeter(){
+                return 4 * $this->shapeLength;
+            }
         }
 
-        function getName(){
-            return $this->name;
-        }
+        $SquareObj = new Square(10);
+        $shapeLength = $SquareObj->getShapeLength();
+        $shapeName = $SquareObj->getShapeName();
+        echo "The new shape is <strong>$shapeName</strong> and one side length is <strong>$shapeLength</strong>.<br><br>";
 
-        function getLength(){
-            return $this->length;
-        }
+        $SquareObj->setShapeLength(20);
+        $shapeLength = $SquareObj->getShapeLength();
+        echo "The new length is <strong>$shapeLength</strong>.<br><br>";
 
-        function setLength($len){
-            $this->length=$len;
-        }
+        $area = $SquareObj->getArea();
+        $perimeter = $SquareObj->getPerimeter();
 
-        function getArea(){
-            return $this->length*$this->length;
-        }
-
-        function getPerimeter(){
-            return $this->length*4;
-        }
-    }
-
-    $shape = new Square(4);
-
-    echo "The name of the shape is: ".$shape->getName()."</br>";
-    echo "The length of one side of shape is: ".$shape->getLength()."</br>";
-    echo "The perimeter for the shape is: ".$shape->getPerimeter()."</br>";
-    echo "The Area for the shape is: ".$shape->getArea()."</br>";
-    
-    
+        echo "The <strong>$shapeName's</strong> area is <strong>$area</strong> and perimeter is <strong>$perimeter</strong>"
     ?>
-
-    <iframe src="task2.txt" height="400" width="1200">
-Your browser does not support iframes. </iframe>
+    
+    
+    
 </body>
 </html>

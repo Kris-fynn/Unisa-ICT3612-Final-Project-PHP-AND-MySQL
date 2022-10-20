@@ -1,69 +1,79 @@
+
 <!DOCTYPE html>
-<head>
-    <title>Assignment3</title>
-</head>
+<html>
 <body>
-    <?php include 'menu.inc'; ?>
-
-    <?php
-////////////////////////////////////////////////////////////////////(a)//////////////////////////////////////////////////////////////
-function boolToText($boolVal,$format=1){
-    if ($format==1) {
-        if ($boolVal==0) {
-            echo "False <br>";
-        }elseif ($boolVal==1) {
-            echo "True<br>";
-        }
-    }elseif ($format==2) {
-        if ($boolVal==0) {
-            echo "No<br>";
-        }elseif ($boolVal==1) {
-            echo "Yes<br>";
-            }
-        }elseif ($format==3) {
-            if ($boolVal==0) {
-                echo "Negative<br>";
-            }elseif ($boolVal==1) {
-                echo "Positive<br>";
-            }
-        }else {
-            echo 0;
-            echo "<br>";
+<h1>Task 1</h1>
+<?php 
+    //Task 1(a)
+    function boolToText($boolValue, $format = 1) {
+        //use a switch for the format, and nested ifs for the values
+        switch ($format) {
+            case 1:
+                if($boolValue == TRUE) {
+                    return "True";
+                } else {
+                    return "False";
+                }                
+                break;
+            case 2:
+                if($boolValue == TRUE) {
+                    return "Yes";
+                } else {
+                    return "No";
+                }                
+                break;
+            case 3:
+                if($boolValue == TRUE) {
+                    return "Positive";
+                } else {
+                    return "Negative";
+                }                
+                break;
+            default:
+                if($boolValue == TRUE) {
+                    return "1";
+                } else {
+                    return "0";
+                }                
+                break;
         }
     }
-    
-    //invoke functions 
-    boolToText(1);
-    boolToText(0, 2);
-    boolToText(1, 3);
-    boolToText(0, 5);
-    echo "<br/>";
-    ////////////////////////////////////////////////////////////////////(a)//////////////////////////////////////////////////////////////
-    
-    
-    ////////////////////////////////////////////////////////////////////(b)//////////////////////////////////////////////////////////////
-    
-    function numArgs(){
-        $argArray=func_get_args();
-        $num = count($argArray);
+ ?>
+ 
+	<h2>Task 1 (a) : </h2>
+    <p>boolToText(0); Result = <?php echo boolToText(0); ?></p>
+    <p>boolToText(1, 2); Result = <?php echo boolToText(1, 2); ?></p>
+    <p>boolToText(0, 3); Result = <?php echo boolToText(0, 3); ?></p>
+    <p>boolToText(1, 5); Result = <?php echo boolToText(1, 5); ?></p>
+    <br>
+  
+<?php
+
+    //Task 1 (b)
+    function checkNumerals(){
+            $numerals = 0;
+            $params = func_get_args();
+
+            foreach($params as $arg){
+                if(is_numeric($arg))
+                    $numerals++;
+            }
+            echo "Total number of arguments: ".func_num_args().", total number of numerals in these arguments: $numerals";
+        }
+
         
-        $numNumerals=0;
-        for ($i=0; $i <$num ; $i++) { 
-            
-            if(is_integer($argArray[$i])) {
-                $numNumerals++;
-            }
-        }
-        echo "Total number of arguments: ".$num." total number of numerals in these arguments: ".$numNumerals."<br/>";
-    }
-    numArgs("Thando", 23, "Busi", 40);
-    numArgs("Mutsa");
-    
-    ////////////////////////////////////////////////////////////////////(b)//////////////////////////////////////////////////////////////
-
-    ?>
-
-<iframe src="Task1.txt" height="400" width="1200">
-Your browser does not support iframes. </iframe>
+        
+?>   
+	<h2>Task 1 (b) :</h2>
+    <p>checkNumerals("Thando", 23, "Busi", 40);</p>
+    <p><?php checkNumerals("Thando", 23, "Busi", 40); ?></p>
+    <p>checkNumerals("Mutsa");</p>
+    <p><?php checkNumerals("Mutsa"); ?></p>    
 </body>
 </html>
+
+
+
+
+
+
