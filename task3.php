@@ -17,6 +17,7 @@
             const ASS_THREE_WEIGHT = 0.8;
 
             public function __construct($studentNumber, $assignment1, $assignment2, $assignment3){
+
                 $this->studentNumber = $studentNumber;
                 $this->assignment1 = $assignment1;
                 $this->assignment2 = $assignment2;
@@ -24,6 +25,7 @@
             }
 
             public function calcYearMark(){
+                
                 $yearMark = ($this->assignment1 * AssignmentRecord::ASS_ONE_WEIGHT) + ($this->assignment2 * AssignmentRecord::ASS_TWO_WEIGHT) + ($this->assignment3 * AssignmentRecord::ASS_THREE_WEIGHT);
                 return $yearMark;
             }

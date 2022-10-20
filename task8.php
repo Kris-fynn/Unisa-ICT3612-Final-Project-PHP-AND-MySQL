@@ -48,7 +48,7 @@ class FullRecord extends AssignmentRecord{
 
 // Task 8(a)
 ?>
-<h2>Task 8(a) : </h2>
+ <h2>Task 8(a) : </h2>
 <?php
 
 function writeToFile($students) {	
@@ -71,8 +71,8 @@ writeToFile($students);
 echo "<p>File populated..</p>";
 ?>
       
-<a href="fullrecords.txt" download>Download File </a>
-<h2>Task 8(b) : </h2>
+  <a href="fullrecords.txt" download>Download File </a>
+ <h2>Task 8(b) : </h2>
 
 <?php
 // Task 8(b)
@@ -84,10 +84,8 @@ $student_records = array();
 while(!feof($file)){
 	$record = fgetcsv($file);
 	if($record == false) continue;
-	$student_records[] = new FullRecord($record[0], $record[1], $record[2], $record[3], $record[4]);	
+	  $student_records[] = new FullRecord($record[0], $record[1], $record[2], $record[3], $record[4]);	
 }
-
-
 
 foreach($student_records as $record){
 		echo $record;

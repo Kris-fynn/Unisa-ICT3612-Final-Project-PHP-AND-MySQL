@@ -58,6 +58,7 @@
                 if(is_numeric($arg))
                     $numerals++;
             }
+            
             echo "Total number of arguments: ".func_num_args().", total number of numerals in these arguments: $numerals";
         }
 

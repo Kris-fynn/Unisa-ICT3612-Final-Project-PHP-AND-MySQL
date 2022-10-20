@@ -19,6 +19,7 @@
     }
 ?>
 <h2>Task 4(a) :</h2>
+
 <p>Validate username and password</p>
 <p>
     <?php 
@@ -35,7 +36,9 @@
 </p>
 
 <h2>Task 4(b) :</h2>
+
 <p>/^[01]?\d\/[0-3]\d\/\d{4}$/</p>
+
 <p>
     <?php 
         echo "Validate 10/10/2011 - " . preg_match("/^[01]?\d\/[0-3]\d\/\d{4}$/", "11/11/1111") . "<br>";

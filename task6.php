@@ -71,6 +71,7 @@ $statement->closeCursor();
 <hr>
 
 <!--display films in HTML table-->
+
 <h3>Films:</h3>
 <table style="border: 1px solid black;">
 <tr>
@@ -113,6 +114,7 @@ $statement->closeCursor();
 <hr>
 
 <!--display film actor roles in HTML table-->
+
 <h3>Film Actor Roles:</h3>
 <table style="border: 1px solid black;">
 <tr>
