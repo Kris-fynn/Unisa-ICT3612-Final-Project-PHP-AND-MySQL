@@ -1,3 +1,0 @@
-Database name: id19283130_films
-Username: id19283130_root
-Password: KrisFynn123@
